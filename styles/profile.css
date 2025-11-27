@@ -1,0 +1,2511 @@
+/* Падающие предметы в личном кабинете */
+#profile-section .profile-falling {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Анимация фона в личном кабинете */
+#profile-section #profileAnimationRoot {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#profile-section #profileCanvas {
+    position: absolute;
+    inset: 0;
+}
+
+#profile-section #profileCanvas canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+/* Контент поверх анимации */
+#profile-section .section-title,
+#profile-section .profile-wrapper,
+#profile-section .profile-actions { position: relative; z-index: 1; }
+/* Profile section container and smooth entrance */
+#profile-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--footer-h));
+    bottom: var(--footer-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    z-index: 15;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    background: #050505;
+}
+
+
+#profile-section.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#profile-section .section-title {
+    margin-bottom: 30px;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+#profile-section .profile-left,
+#profile-section .profile-right {
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.8s ease 0.1s, opacity 0.8s ease 0.1s;
+}
+
+#profile-section.active .section-title,
+#profile-section.active .profile-left,
+#profile-section.active .profile-right {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 36px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+}
+
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.1) center/cover no-repeat;
+    border: 2px solid rgba(255,255,255,.25);
+    transition: all 0.3s ease;
+}
+
+#avatarInput {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.avatar-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+}
+
+.avatar-upload-label:hover {
+    background: linear-gradient(135deg, #44a08d, #4ecdc4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+.avatar-upload-label:active {
+    transform: translateY(0);
+}
+
+.avatar-upload-icon {
+    font-size: 20px;
+}
+
+.avatar-upload-text {
+    letter-spacing: 0.5px;
+}
+
+.profile-right {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 28px;
+}
+
+.profile-field {
+    margin-bottom: 18px;
+}
+
+.profile-field label {
+    display: block;
+    margin-bottom: 6px;
+    opacity: .85;
+}
+
+.profile-field input,
+.profile-field select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 18px;
+}
+
+.profile-field {
+    position: relative;
+}
+
+.profile-char-counter {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 12px;
+    color: #999;
+    background: rgba(0,0,0,0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.profile-field select#profileGender {
+    color: #000;
+    background: #fff;
+}
+
+.profile-field select#profileGender option {
+    color: #000;
+    background: #fff;
+}
+
+.profile-field-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.profile-help-text {
+    margin: 6px 0 12px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.4;
+}
+
+.profile-btn.secondary {
+    margin-top: 0;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: none;
+}
+
+.profile-btn.secondary:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.profile-btn {
+    margin-top: 10px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #ffcc00;
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.profile-readonly {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+}
+
+.plans-list {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.plans-list li {
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trainer-notifications {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trainer-notification {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.trainer-notification.new {
+    border-color: rgba(255, 204, 0, 0.6);
+    box-shadow: 0 0 12px rgba(255,204,0,0.25);
+}
+
+.trainer-notification-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.trainer-notification-meta {
+    font-size: 0.9rem;
+    color: #cfd8ff;
+}
+
+.trainer-notification-notes {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #b5c8ff;
+}
+
+.visit-history-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.visit-history-title {
+    font-weight: 600;
+    color: #fff;
+}
+
+.visit-history-plan {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.plans-list .plan-title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.35;
+    color: #fff;
+    max-width: calc(100% - 140px);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plans-list .plan-price {
+    color: #ffcc00;
+    font-weight: 600;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.plans-list .plan-expires {
+    font-size: 13px;
+    color: #4ecdc4;
+    font-weight: 400;
+    margin-top: 4px;
+    display: block;
+}
+
+.trainer-availability-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 14px 0 8px;
+}
+
+.trainer-availability-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.trainer-availability-stats {
+    font-size: 0.9rem;
+    color: #ffcc00;
+}
+
+.trainer-availability-list {
+    display: grid;
+    gap: 8px;
+}
+
+.trainer-availability-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    font-size: 0.95rem;
+}
+
+.trainer-availability-day {
+    font-weight: 600;
+}
+
+.trainer-availability-hours {
+    color: #4ecdc4;
+    font-weight: 600;
+}
+
+.trainer-availability-empty {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    padding: 8px 0;
+}
+
+.trainer-availability-hint {
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 12px;
+    min-height: 48px;
+}
+
+/* блок подсказки бронирования удалён */
+
+.trainer-client-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.12);
+    margin-bottom: 12px;
+}
+
+.trainer-client-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1) center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+}
+
+.trainer-client-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.profile-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.profile-actions .profile-btn {
+    margin-left: 12px;
+}
+
+/* Модалка записи */
+#bookModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#bookModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.book-modal {
+    width: min(1600px, 96vw);
+    max-width: none;
+    max-height: 92vh;
+    background: rgba(0,0,0,0.96);
+    border-radius: 28px;
+    padding: 28px 32px;
+    color: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.book-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.book-modal::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.25);
+    border-radius: 999px;
+}
+
+.book-close {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.book-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.book-title {
+    margin: 0;
+}
+
+.book-warning {
+    background: rgba(255, 165, 0, 0.15);
+    border: 1px solid rgba(255, 165, 0, 0.45);
+    color: #ffd27f;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+}
+
+.book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.book-step {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.book-step.hidden {
+    display: none;
+}
+
+.book-step-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffcc00;
+}
+
+.book-gym-selector {
+    margin-bottom: 20px;
+}
+
+.book-gym-selector label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.book-gym-selector select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 16px;
+}
+
+.book-trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.book-trainer-card {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.book-trainer-card:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.book-trainer-card.selected {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(68, 160, 141, 0.2));
+    border-color: #4ecdc4;
+    box-shadow: 0 4px 16px rgba(78, 205, 196, 0.4);
+}
+
+.book-trainer-card-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.2);
+}
+
+.book-trainer-card-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+.book-trainer-card-desc {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin: 0;
+}
+
+.book-selected-trainer {
+    background: rgba(78, 205, 196, 0.1);
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.book-selected-trainer-photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.book-selected-trainer-info {
+    flex: 1;
+}
+
+.book-selected-trainer-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.book-selected-trainer-desc {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+}
+
+.book-schedule-body {
+    display: grid;
+    grid-template-columns: minmax(580px, 1fr) minmax(380px, 460px);
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.book-calendar {
+    background: rgba(255,255,255,0.03);
+    border-radius: 24px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.book-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.book-calendar-month {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.book-calendar-nav {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.book-calendar-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.book-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+}
+
+.book-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    flex: 1;
+}
+
+.book-calendar-day {
+    aspect-ratio: 1 / 1;
+    min-height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .2s ease;
+    color: #fff;
+}
+
+.book-calendar-day:hover:not(.disabled) {
+    border-color: rgba(255,255,255,0.2);
+}
+
+.book-calendar-day.disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.book-calendar-day.available {
+    background: rgba(78, 205, 196, 0.1);
+    border-color: rgba(78, 205, 196, 0.3);
+}
+
+.book-calendar-day.selected {
+    background: #4ecdc4;
+    border-color: transparent;
+    color: #000;
+}
+
+.book-calendar-day.today {
+    border-color: rgba(255,255,255,0.35);
+}
+
+.book-time-panel {
+    background: rgba(0,0,0,0.35);
+    border-radius: 24px;
+    padding: 18px 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(90vh - 200px);
+    overflow-y: auto;
+}
+
+.book-selected-date {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.book-time-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.book-time-slots-label {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+}
+
+.book-time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.book-time-slot-btn {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+    text-align: center;
+}
+
+.book-time-slot-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+}
+
+.book-time-slot-btn.selected {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    border-color: #4ecdc4;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.4);
+}
+
+.book-time-slot-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255,255,255,0.02);
+}
+
+.book-notes-container {
+    margin-top: 12px;
+}
+
+.book-notes-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.book-notes-container textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.book-row label {
+    display: block;
+    margin-bottom: 6px;
+    opacity: .9;
+}
+
+.availability-row label {
+    margin-bottom: 4px;
+}
+
+.trainer-availability-hint strong {
+    color: #ffcc00;
+}
+
+.book-trainer-wrap {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.book-trainer-photo {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.book-form select#bookTrainer {
+    color: #000;
+    background: #fff;
+}
+
+.book-form select#bookTrainer option {
+    color: #000;
+    background: #fff;
+}
+
+.book-form select#bookGym {
+    color: #000;
+    background: #fff;
+}
+
+.book-form select#bookGym option {
+    color: #000;
+    background: #fff;
+}
+
+.book-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.book-form textarea#bookNotes {
+    position: relative;
+}
+
+.book-char-counter {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 12px;
+    color: #999;
+    background: rgba(0,0,0,0.7);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.book-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Светлая тема модалки записи */
+body.light-theme .book-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .book-trainer-card {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+}
+
+body.light-theme .book-trainer-card:hover {
+    background: rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .book-trainer-card.selected {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(68, 160, 141, 0.15));
+    border-color: #4ecdc4;
+}
+
+body.light-theme .book-selected-trainer {
+    background: rgba(78, 205, 196, 0.08);
+    border-color: rgba(78, 205, 196, 0.2);
+}
+
+body.light-theme .book-selected-trainer-desc {
+    color: #666;
+}
+
+body.light-theme .book-calendar,
+body.light-theme .book-time-panel {
+    background: #f5f7fb;
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .book-calendar-nav {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+}
+
+body.light-theme .book-calendar-weekdays {
+    color: rgba(0,0,0,0.5);
+}
+
+body.light-theme .book-calendar-day {
+    background: rgba(0,0,0,0.04);
+    color: #111;
+}
+
+body.light-theme .book-calendar-day.available {
+    background: rgba(78, 205, 196, 0.1);
+    border-color: rgba(78, 205, 196, 0.3);
+}
+
+body.light-theme .book-calendar-day.selected {
+    background: #4ecdc4;
+    color: #000;
+}
+
+body.light-theme .book-time-slot-btn {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.2);
+    color: #111;
+}
+
+body.light-theme .book-time-slot-btn:hover:not(:disabled) {
+    background: rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.3);
+}
+
+body.light-theme .book-time-slot-btn.selected {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: #fff;
+}
+
+body.light-theme .book-notes-container textarea {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.12);
+    color: #111;
+}
+
+body.light-theme .trainer-availability-hint {
+    color: #111;
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-availability-hours {
+    color: #096dd9;
+}
+
+body.light-theme .book-close {
+    color: #111;
+}
+
+body.light-theme .book-form input,
+body.light-theme .book-form select,
+body.light-theme .book-form textarea {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+    border-color: rgba(0,0,0,0.12);
+}
+
+body.light-theme .book-form select#bookTrainer,
+body.light-theme .book-form select#bookTrainer option {
+    color: #000;
+    background: #fff;
+}
+
+body.light-theme .book-form select#bookGym,
+body.light-theme .book-form select#bookGym option {
+    color: #000;
+    background: #fff;
+}
+
+body.light-theme .book-warning {
+    background: rgba(255, 196, 0, 0.15);
+    border-color: rgba(255, 196, 0, 0.45);
+    color: #7a5c00;
+}
+
+body.light-theme .trainer-availability-item {
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-availability-empty {
+    color: #555;
+}
+
+/* Модалка моих записей */
+#bookingsModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#bookingsModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.bookings-modal {
+    width: min(1200px, 96vw);
+    max-height: 92vh;
+    height: auto;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(0,0,0,0.92), rgba(18,25,33,0.9));
+    border-radius: 34px;
+    padding: 42px 48px;
+    box-shadow: 0 45px 80px rgba(0,0,0,.65);
+    color: #fff;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.bookings-close {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 26px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.bookings-close:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.bookings-title {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 6px 20px rgba(0,0,0,0.45);
+}
+
+.bookings-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.booking-item {
+    background: radial-gradient(circle at top right, rgba(78,205,196,0.25), rgba(0,0,0,0.65));
+    border: 1px solid rgba(78,205,196,0.45);
+    border-radius: 18px;
+    padding: 18px 20px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    min-height: 220px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+.booking-item h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.booking-meta {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.booking-notes {
+    color: #ddd;
+    font-size: 0.95rem;
+    margin-top: 6px;
+    margin-bottom: 0;
+    word-break: break-word;
+}
+
+.booking-actions {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Для горизонтального ряда убираем нижний отступ у чекбокса внутри действий */
+.booking-actions .booking-confirm-wrap {
+    margin-bottom: 0;
+}
+
+.booking-confirm-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 4px;
+}
+
+.booking-cancel-btn[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.booking-cancel-btn {
+    background: linear-gradient(120deg, #ff4d4f, #ff6a88);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 10px 25px rgba(255,77,79,0.35);
+}
+
+.booking-cancel-btn:hover {
+    background: linear-gradient(120deg, #ff5e62, #ff9966);
+}
+
+.bookings-empty {
+    color: #aaa;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Светлая тема для модалки записей */
+body.light-theme .bookings-modal {
+    background: linear-gradient(135deg, #fdfdff, #f1f5ff);
+    color: #111;
+    border-color: rgba(0,0,0,0.06);
+    box-shadow: 0 40px 90px rgba(15,24,54,0.15);
+}
+
+body.light-theme .bookings-close {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .booking-item {
+    background: linear-gradient(120deg, rgba(78,205,196,0.15), rgba(68,160,141,0.12));
+    border-color: rgba(78,205,196,0.35);
+    box-shadow: 0 12px 30px rgba(78,205,196,0.25);
+    color: #0f1a24;
+}
+
+body.light-theme .booking-meta {
+    color: rgba(0,0,0,0.7);
+}
+
+body.light-theme .booking-notes {
+    color: rgba(0,0,0,0.8);
+}
+
+/* ===== Адаптив личного кабинета и админки ===== */
+@media (max-width: 1280px) {
+    .profile-wrapper {
+        grid-template-columns: 280px 1fr;
+        gap: 28px;
+        padding: 0 20px 40px;
+    }
+    .profile-right {
+        padding: 26px;
+    }
+    .bookings-modal {
+        width: min(1200px, 94vw);
+        padding: 36px 40px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .profile-wrapper {
+        grid-template-columns: 240px 1fr;
+    }
+    .avatar {
+        width: 220px;
+        height: 220px;
+    }
+    .bookings-list {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .profile-wrapper {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 0 18px 36px;
+    }
+    .profile-left {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .avatar {
+        width: 180px;
+        height: 180px;
+    }
+    .avatar-upload-label {
+        font-size: 0.95rem;
+        padding: 10px 18px;
+    }
+    .profile-right {
+        width: 100%;
+        padding: 22px;
+    }
+    .plans-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .plans-list .plan-title {
+        max-width: 100%;
+    }
+    .bookings-modal {
+        width: min(640px, 94vw);
+        max-height: 90vh;
+        padding: 32px 28px;
+        height: auto;
+    }
+    .bookings-list {
+        grid-template-columns: 1fr;
+    }
+    .booking-item {
+        padding: 18px 18px 80px;
+        min-height: auto;
+    }
+    .booking-actions {
+        position: static;
+        margin-top: 12px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .booking-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    #admin-section,
+    #manager-section {
+        padding: 80px 16px 24px;
+    }
+    #admin-section .profile-right,
+    #manager-section .profile-right {
+        width: 100%;
+        padding: 22px;
+    }
+    .admin-user .admin-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+    .admin-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .profile-wrapper {
+        padding: 0 16px 32px;
+    }
+    .profile-left {
+        flex-direction: column;
+    }
+    .avatar {
+        width: 150px;
+        height: 150px;
+    }
+    .profile-right {
+        padding: 18px;
+    }
+    .bookings-modal {
+        border-radius: 24px;
+        padding: 28px 20px;
+    }
+    .bookings-title {
+        font-size: 1.6rem;
+    }
+    .booking-actions {
+        gap: 10px;
+    }
+    .booking-actions button,
+    .booking-actions .booking-cancel-btn {
+        width: 100%;
+    }
+    .booking-confirm-wrap {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .admin-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .admin-confirm-wrap {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-wrapper {
+        padding: 0 14px 28px;
+    }
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+    .avatar-upload-label {
+        width: 100%;
+        justify-content: center;
+    }
+    .profile-field input,
+    .profile-field select {
+        font-size: 15px;
+        padding: 12px 12px;
+    }
+    .bookings-close {
+        width: 38px;
+        height: 38px;
+        top: 18px;
+        right: 18px;
+    }
+    .bookings-title {
+        font-size: 1.4rem;
+    }
+    .booking-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .booking-item {
+        padding: 16px;
+    }
+    #admin-section,
+    #manager-section {
+        padding: 70px 12px 18px;
+    }
+}
+
+/* ===== Модалка записей тренера ===== */
+#trainerClientsModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#trainerClientsModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.trainer-clients-modal {
+    width: min(1200px, 94vw);
+    max-height: 90vh;
+    overflow: auto;
+    background: rgba(0,0,0,0.9);
+    border-radius: 26px;
+    padding: 26px;
+    color: #fff;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.trainer-clients-close {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.trainer-clients-title {
+    margin: 0 0 16px;
+}
+
+.trainer-clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trainer-client-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.trainer-client-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.trainer-client-contact {
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+.trainer-client-meta {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.trainer-client-notes {
+    font-size: 0.9rem;
+    color: #b5c8ff;
+}
+
+.trainer-schedule-modal {
+    width: min(1600px, 96vw);
+    max-width: none;
+    max-height: 92vh;
+    background: rgba(0,0,0,0.96);
+    border-radius: 28px;
+    padding: 28px 32px;
+    color: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.trainer-schedule-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.trainer-schedule-modal::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.25);
+    border-radius: 999px;
+}
+
+.trainer-schedule-close {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.trainer-schedule-title {
+    margin: 0;
+}
+
+.trainer-schedule-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.trainer-schedule-steps {
+    display: flex;
+    gap: 8px;
+}
+
+.trainer-schedule-steps .step {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.trainer-schedule-steps .step.active {
+    background: #ff3358;
+    border-color: #ff3358;
+}
+
+.trainer-schedule-note {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    margin: 14px 0 18px;
+}
+
+.trainer-schedule-body {
+    display: grid;
+    grid-template-columns: minmax(580px, 1fr) minmax(380px, 460px);
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+}
+
+.trainer-calendar {
+    background: rgba(255,255,255,0.03);
+    border-radius: 24px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.trainer-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.trainer-calendar-month {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.trainer-calendar-nav {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.trainer-calendar-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.trainer-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+}
+
+.trainer-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    flex: 1;
+}
+
+.calendar-day {
+    aspect-ratio: 1 / 1;
+    min-height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.calendar-day:hover {
+    border-color: rgba(255,255,255,0.2);
+}
+
+.calendar-day.disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.calendar-day.selected {
+    background: #d81b60;
+    border-color: transparent;
+}
+
+.calendar-day.active {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.calendar-day.today {
+    border-color: rgba(255,255,255,0.35);
+}
+
+.trainer-time-panel {
+    background: rgba(0,0,0,0.35);
+    border-radius: 24px;
+    padding: 18px 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: calc(90vh - 160px);
+    overflow-y: auto;
+}
+
+.trainer-time-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.trainer-time-panel::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.25);
+    border-radius: 999px;
+}
+
+.trainer-schedule-counter {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+}
+
+.trainer-time-selected {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.trainer-time-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.trainer-time-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.trainer-time-group label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.trainer-time-group input[type="time"] {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+}
+
+.trainer-time-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trainer-time-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.trainer-time-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.trainer-time-pill {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: transparent;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.trainer-time-pill:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.trainer-time-tip {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+}
+
+.trainer-time-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trainer-time-slots-label {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+}
+
+.trainer-time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.trainer-time-slot-btn {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+    text-align: center;
+}
+
+.trainer-time-slot-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.4);
+    transform: translateY(-1px);
+}
+
+.trainer-time-slot-btn.selected {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    border-color: #4ecdc4;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.4);
+}
+
+.trainer-time-slot-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255,255,255,0.02);
+}
+
+.trainer-time-slots-counter {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    padding: 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.trainer-schedule-remove {
+    align-self: flex-start;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.trainer-schedule-remove:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.trainer-schedule-remove:not(:disabled):hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.trainer-schedule-info {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.trainer-schedule-info.error {
+    border-color: rgba(255,77,79,0.8);
+    color: #ff7875;
+}
+
+.trainer-schedule-info.success {
+    border-color: rgba(82,196,26,0.8);
+    color: #52c41a;
+}
+
+.trainer-schedule-actions {
+    position: absolute;
+    right: 32px;
+    bottom: 0;
+    display: flex;
+    gap: 12px;
+}
+
+body.light-theme .trainer-clients-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .trainer-clients-close {
+    color: #111;
+}
+
+body.light-theme .trainer-client-item {
+    background: #f4f6fb;
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-client-contact,
+body.light-theme .trainer-client-meta,
+body.light-theme .trainer-client-notes {
+    color: #333;
+}
+
+body.light-theme .trainer-schedule-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .trainer-schedule-close {
+    color: #111;
+}
+
+body.light-theme .trainer-schedule-note {
+    color: #444;
+}
+
+body.light-theme .trainer-calendar,
+body.light-theme .trainer-time-panel {
+    background: #f5f7fb;
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-calendar-nav {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+}
+
+body.light-theme .trainer-calendar-weekdays {
+    color: rgba(0,0,0,0.5);
+}
+
+body.light-theme .calendar-day {
+    background: rgba(0,0,0,0.04);
+    color: #111;
+}
+
+body.light-theme .calendar-day.selected {
+    background: #d81b60;
+    color: #fff;
+}
+
+body.light-theme .trainer-time-group label,
+body.light-theme .trainer-time-label,
+body.light-theme .trainer-time-tip,
+body.light-theme .trainer-schedule-counter {
+    color: #333;
+}
+
+body.light-theme .trainer-time-group input[type="time"] {
+    background: rgba(255,255,255,0.9);
+    color: #111;
+    border-color: rgba(0,0,0,0.1);
+}
+
+body.light-theme .trainer-time-pill {
+    color: #111;
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .trainer-time-slots-label {
+    color: #333;
+}
+
+body.light-theme .trainer-time-slot-btn {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.2);
+    color: #111;
+}
+
+body.light-theme .trainer-time-slot-btn:hover:not(:disabled) {
+    background: rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.3);
+}
+
+body.light-theme .trainer-time-slot-btn.selected {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    border-color: #4ecdc4;
+    color: #fff;
+}
+
+body.light-theme .trainer-time-slot-btn.disabled {
+    background: rgba(0,0,0,0.02);
+    opacity: 0.4;
+}
+
+body.light-theme .trainer-time-slots-counter {
+    color: #333;
+    background: rgba(0,0,0,0.04);
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-schedule-info {
+    background: rgba(0,0,0,0.04);
+    color: #333;
+}
+
+body.light-theme .trainer-schedule-remove {
+    color: #333;
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .trainer-schedule-remove:not(:disabled):hover {
+    background: rgba(0,0,0,0.05);
+}
+
+
+/* ===== Модалка информации об абонементе ===== */
+#planInfoModal.modal { position: fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(0,0,0,0.6); z-index:1000; }
+#planInfoModal.modal:not(.hidden) { display:flex; }
+.planinfo-modal { width:min(520px,92vw); background: rgba(0,0,0,0.85); border-radius:16px; padding:22px; color:#fff; position:relative; }
+.planinfo-close { position:absolute; right:16px; top:10px; background:transparent; color:#fff; border:none; font-size:28px; cursor:pointer; }
+.planinfo-title { margin:0 0 12px; text-align:center; }
+.planinfo-body { display:flex; flex-direction:column; gap:10px; }
+.planinfo-row { display:flex; align-items:center; justify-content:space-between; gap:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); padding:10px 12px; border-radius:10px; }
+.planinfo-row span { opacity:.85; }
+.planinfo-actions { display:flex; justify-content:center; margin-top:12px; }
+
+body.light-theme .planinfo-modal { background:#fff; color:#111; }
+body.light-theme .planinfo-close { color:#111; }
+body.light-theme .planinfo-row { background:#eef1f5; border-color: rgba(0,0,0,0.12); }
+
+/* Кликаябельные абонементы в списке */
+#profilePlans li {
+    cursor: pointer;
+    transition: background .2s ease, box-shadow .2s ease, transform .15s ease;
+    border-radius: 10px;
+}
+#profilePlans li:hover {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(255,255,255,0.12);
+    transform: translateY(-1px);
+}
+#profilePlans li:active {
+    transform: translateY(0);
+}
+body.light-theme #profilePlans li:hover {
+    background: #eef1f5;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+body.light-theme .bookings-close {
+    color: #111;
+}
+
+body.light-theme .booking-item {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.12);
+}
+
+body.light-theme .booking-meta {
+    color: #333;
+}
+
+body.light-theme .booking-notes {
+    color: #222;
+}
+
+/* ===== Админ / Менеджер разделы ===== */
+#admin-section,
+#manager-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--footer-h));
+    bottom: var(--footer-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    z-index: 16;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    background: rgba(5,5,5,0.95);
+    color: #fff;
+}
+
+/* Центрирование админ-панели */
+#admin-section .profile-wrapper,
+#manager-section .profile-wrapper {
+    grid-template-columns: 1fr;
+    justify-items: center;
+}
+
+#admin-section .profile-right,
+#manager-section .profile-right {
+    margin: 0 auto;
+}
+
+#admin-section.active,
+#manager-section.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#admin-section .plans-list,
+#manager-section .plans-list {
+    grid-auto-rows: auto;
+}
+
+#manager-section .profile-right {
+    width: min(1200px, 92vw);
+    background: rgba(0,0,0,0.7);
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px;
+}
+
+.admin-subtitle {
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 20px 0 12px 0;
+    text-align: left;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    padding-bottom: 8px;
+}
+
+body.light-theme .admin-subtitle {
+    color: #000;
+    border-bottom-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme #manager-section {
+    background: rgba(255,255,255,0.96);
+    color: #000;
+}
+
+body.light-theme #manager-section * {
+    color: inherit;
+}
+
+body.light-theme #manager-section .profile-right {
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(0,0,0,0.08);
+}
+
+.admin-user {
+    padding: 16px 20px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: grid;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.admin-user .admin-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-user .admin-meta {
+    color: #bdbdbd;
+    font-size: .95rem;
+}
+
+.admin-user .admin-plans {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.admin-tag {
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: .85rem;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.admin-confirm-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .95rem;
+    color: #ddd;
+}
+
+.admin-del-user[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.admin-del-plan,
+.admin-del-user {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.admin-del-plan:hover,
+.admin-del-user:hover {
+    background: #e04345;
+}
+
+body.light-theme #admin-section .admin-user {
+    background: #e3e8ef;
+    border-color: rgba(0,0,0,0.40);
+}
+
+/* Стили для записей на тренировки в админ панели */
+.booking-item.admin {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.booking-item.admin .booking-title {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.booking-item.admin .booking-meta {
+    color: #bdbdbd;
+    font-size: 0.9rem;
+    grid-column: 1 / -1;
+    margin-top: 8px;
+}
+
+.booking-item.admin .booking-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.booking-planned-btn,
+.booking-done-btn,
+.booking-cancel-admin-btn {
+    background: #4ecdc4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.booking-done-btn {
+    background: #52c41a;
+}
+
+.booking-cancel-admin-btn {
+    background: #ff7875;
+}
+
+.booking-delete-admin-btn {
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.booking-confirm-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #ddd;
+}
+
+body.light-theme .booking-item.admin {
+    background: #e3e8ef;
+    border-color: rgba(0,0,0,0.40);
+}
+
+body.light-theme .booking-item.admin .booking-title {
+    color: #000;
+}
+
+body.light-theme .booking-item.admin .booking-meta {
+    color: #000;
+}
+
+body.light-theme #admin-section .admin-meta {
+    color: #000;
+}
+
+/* Светлая тема: общий цвет текста в админ-панели */
+body.light-theme #admin-section { color: #000; }
+body.light-theme #admin-section * { color: inherit; }
+
+/* Светлая тема: сделать подтверждающие подписи тоже тёмными */
+body.light-theme .admin-confirm-wrap { color: #000; }
+
+body.light-theme .profile-field select#profileGender,
+body.light-theme .profile-field select#profileGender option {
+    color: #000;
+    background: #fff;
+}
+
+/* Delete plan button */
+.delete-plan-btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #ff4d4f;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.delete-plan-btn:hover {
+    background: #e04345;
+}
+
+.delete-plan-btn[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* Light theme tweaks for profile */
+body.light-theme #profile-section {
+    background: #fcfdfd;
+}
+
+body.light-theme #profile-section::before {
+    background: radial-gradient(circle at 18% 20%, rgba(255, 188, 150, 0.55), transparent 55%),
+                radial-gradient(circle at 78% 32%, rgba(125, 225, 210, 0.46), transparent 50%),
+                radial-gradient(circle at 48% 82%, rgba(156, 196, 255, 0.4), transparent 60%);
+    opacity: 0.7;
+}
+
+body.light-theme .profile-right {
+    background: #e9edf3;
+    border-color: rgba(0,0,0,0.40);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+body.light-theme .profile-field input {
+    background: #eef1f5;
+    border-color: rgba(0,0,0,0.40);
+    color: #111;
+}
+
+body.light-theme .profile-btn.secondary {
+    color: #000;
+    border-color: rgba(0,0,0,0.4);
+}
+
+body.light-theme .profile-readonly {
+    background: #eaedf2;
+    border-color: rgba(0,0,0,0.40);
+    color: #111;
+}
+
+body.light-theme .plans-list li {
+    background: #eef2f7;
+    border-color: rgba(0,0,0,0.40);
+}
+
+body.light-theme .trainer-notification {
+    background: #f6f8fc;
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .trainer-notification-meta,
+body.light-theme .trainer-notification-notes {
+    color: #333;
+}
+
+body.light-theme .avatar {
+    background-color: #e3e8ef;
+    border-color: rgba(0,0,0,0.40);
+}
+
+/* Make all profile texts black in light theme (except price) */
+body.light-theme #profile-section,
+body.light-theme #profile-section *:not(.plan-price) {
+    color: #000;
+}
+
+/* Keep back button yellow in all themes */
+.back-button {
+    background: #ffcc00;
+    color: #000;
+}
+
+.back-button:hover {
+    background: #ffb700;
+}
+
+body.light-theme .back-button {
+    background: #ffcc00 !important;
+    color: #000 !important;
+}
+
+body.light-theme .back-button:hover {
+    background: #ffb700 !important;
+}
+
+/* ===== Блок заявок на тренера ===== */
+.applications-info {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 8px;
+}
+
+.applications-status {
+    margin: 0 0 12px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.applications-status.success {
+    color: #52c41a;
+}
+
+.applications-status.warning {
+    color: #faad14;
+}
+
+.applications-status.error {
+    color: #ff4d4f;
+}
+
+.applications-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.applications-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.application-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.application-date {
+    color: #bdbdbd;
+    font-size: 12px;
+}
+
+.application-status {
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.application-status.pending {
+    color: #faad14;
+}
+
+.application-status.approved {
+    color: #52c41a;
+}
+
+.application-status.rejected {
+    color: #ff4d4f;
+}
+
+/* Светлая тема для заявок */
+body.light-theme .applications-info {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+}
+
+body.light-theme .applications-status {
+    color: #333;
+}
+
+body.light-theme .application-item {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.08);
+}
+
+body.light-theme .application-date {
+    color: #666;
+}

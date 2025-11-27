@@ -1,0 +1,92 @@
+<section id="profile-section" class="hidden">
+  <div id="profileAnimationRoot" class="hero-visual theme-molten">
+    <div id="profileCanvas"></div>
+    <div class="glow"></div>
+  </div>
+  <div class="section-title">Личный кабинет</div>
+  <div class="profile-wrapper">
+    <div class="profile-left">
+      <div class="avatar-container">
+        <div class="avatar" id="profileAvatar"></div>
+        <input type="file" id="avatarInput" accept="image/*">
+        <label for="avatarInput" class="avatar-upload-label">
+          <span class="avatar-upload-icon">📷</span>
+          <span class="avatar-upload-text">Изменить фото</span>
+        </label>
+      </div>
+    </div>
+    <div class="profile-right">
+      <div class="profile-field">
+        <label for="profileName">Имя</label>
+        <input type="text" id="profileName" placeholder="Ваше имя" maxlength="15">
+        <button id="saveNameBtn" class="profile-btn">Сохранить имя</button>
+      </div>
+      <div class="profile-field">
+        <label for="profileGender">Пол</label>
+        <select id="profileGender">
+          <option value="">Не указан</option>
+          <option value="male">Мужской</option>
+          <option value="female">Женский</option>
+        </select>
+        <button id="saveGenderBtn" class="profile-btn">Сохранить пол</button>
+      </div>
+      <div class="profile-field">
+        <label for="profilePhone">Номер телефона</label>
+        <input type="tel" id="profilePhone" placeholder="+375 (__) ___-__-__">
+        <button id="savePhoneBtn" class="profile-btn">Сохранить телефон</button>
+      </div>
+      <div class="profile-field">
+        <label>Email</label>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <div id="profileEmail" class="profile-readonly"></div>
+          <span id="emailVerifyStatus" class="admin-tag" style="display:none;"></span>
+          <button id="verifyEmailBtn" class="profile-btn" style="display:none;">Подтвердить почту</button>
+        </div>
+      </div>
+      <div class="profile-field">
+        <label>Мои абонементы</label>
+        <ul id="profilePlans" class="plans-list"></ul>
+      </div>
+      <div class="profile-field" id="visitHistoryBlock" style="display:none;">
+        <label>История посещений</label>
+        <ul id="visitHistoryList" class="plans-list"></ul>
+      </div>
+      <div class="profile-field">
+        <label>Заявки на тренера</label>
+        <div id="trainerApplicationsInfo" class="applications-info">
+          <p class="applications-status">Проверка статуса заявок...</p>
+          <div class="applications-actions">
+            <button id="checkApplicationsBtn" class="profile-btn">Проверить заявки</button>
+          </div>
+        </div>
+      </div>
+      <div class="profile-field" id="trainerScheduleBlock" style="display:none;">
+        <div class="profile-field-header">
+          <label>Записи ко мне (тренер)</label>
+          <button id="manageTrainerScheduleBtn" class="profile-btn secondary">Настроить расписание</button>
+        </div>
+        <p class="profile-help-text" id="trainerScheduleHelp">
+          Укажите график работы минимум на 15 дней вперёд с рабочим промежутком не менее 6 часов. Клиенты будут видеть свободные слоты в форме записи.
+        </p>
+        <div id="trainerSchedule" class="plans-list"></div>
+        <div class="trainer-availability-meta">
+          <div class="trainer-availability-title">Моё расписание</div>
+          <div id="trainerScheduleStats" class="trainer-availability-stats">Расписание ещё не настроено</div>
+        </div>
+        <div id="trainerAvailabilityList" class="trainer-availability-list"></div>
+      </div>
+      <div class="profile-field" id="trainerNotificationsBlock" style="display:none;">
+        <label>Уведомления тренера</label>
+        <div id="trainerNotificationsList" class="trainer-notifications"></div>
+        <button id="trainerNotificationsClearBtn" class="profile-btn" style="margin-top:8px;">Очистить уведомления</button>
+      </div>
+      <div class="profile-actions">
+        <button class="back-button" onclick="closeProfile()">← Назад на главную</button>
+        <button id="bookTrainingBtn" class="profile-btn" style="margin-left:12px;">Записаться на тренировку</button>
+        <button id="myBookingsBtn" class="profile-btn" style="margin-left:12px;">Мои записи</button>
+        <button id="trainerClientsBtn" class="profile-btn" style="margin-left:12px; display:none;">Записи ко мне</button>
+      </div>
+    </div>
+  </div>
+</section>
+

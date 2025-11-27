@@ -1,0 +1,527 @@
+/* Стили вкладки "Абонементы" */
+
+#abonements-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--footer-h));
+    bottom: var(--footer-h);
+    background-image: url('../Images/idi.avif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#abonements-section.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#abonements-section .section-title {
+    margin-bottom: 30px;
+}
+
+#abonements-section .back-button {
+    margin-top: 20px;
+}
+
+/* Смещение карточек абонементов чуть правее */
+#abonements-section .trainers-container {
+    margin-left: 100px;
+}
+
+#abonements-section.active .section-title {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#abonements-section.active .trainer-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#abonements-section.active .trainer-card:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+#abonements-section.active .trainer-card:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+#abonements-section.active .trainer-card:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+#abonements-section.active .trainer-card:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+#abonements-section.active .trainer-card:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+#abonements-section.active .trainer-card:nth-child(6) {
+    transition-delay: 0.6s;
+}
+
+#abonements-section.active .trainer-card:nth-child(7) {
+    transition-delay: 0.7s;
+}
+
+/* Светлая тема: фон */
+body.light-theme #abonements-section {
+    background-image: url('../Images/lala.avif');
+}
+
+/* Модальное окно детальной информации об абонементе */
+.plan-details-modal {
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.plan-details-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.plan-details-close:hover {
+    transform: rotate(90deg);
+}
+
+.plan-details-title {
+    padding: 20px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.plan-details-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Кастомный скроллбар для контента модального окна */
+.plan-details-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.plan-details-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.plan-details-content::-webkit-scrollbar-thumb {
+    background: rgba(78, 205, 196, 0.5);
+    border-radius: 4px;
+}
+
+.plan-details-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(78, 205, 196, 0.7);
+}
+
+.plan-details-info p {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.plan-details-price-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-details-price-section label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.plan-currency-select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.plan-currency-select:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.plan-currency-select option {
+    background: #222;
+    color: white;
+}
+
+.plan-price-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(78, 205, 196, 0.1);
+    border-radius: 8px;
+    border: 2px solid rgba(78, 205, 196, 0.3);
+}
+
+.plan-price-label {
+    font-weight: 600;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.plan-price-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4ecdc4;
+    text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+}
+
+.plan-details-actions {
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: flex-end;
+}
+
+.plan-details-actions button {
+    flex: 1;
+    height: 60px;
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
+.plan-details-actions .back-button {
+    background: #6c757d;
+    color: white;
+}
+
+.plan-details-actions .back-button:hover {
+    background: #5a6268;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.plan-details-actions .auth-btn {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    align-self: flex-end;
+}
+
+.plan-details-actions .auth-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #44a08d, #4ecdc4);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.5);
+}
+
+.plan-details-actions .auth-btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Анимация для смены цены */
+@keyframes priceChange {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.plan-price-value.updating {
+    animation: priceChange 0.5s ease;
+}
+
+/* Дополнительная информация об абонементе */
+.plan-details-extra-info {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-extra-item {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.plan-extra-item:last-child {
+    margin-bottom: 0;
+}
+
+.plan-extra-item strong {
+    color: #4ecdc4;
+    margin-right: 5px;
+}
+
+/* Секция способов оплаты */
+.payment-methods-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payment-methods-label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.payment-methods-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-method-option {
+    cursor: pointer;
+    position: relative;
+}
+
+.payment-method-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.payment-method-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.payment-method-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(78, 205, 196, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.payment-method-input:checked + .payment-method-card {
+    background: rgba(78, 205, 196, 0.15);
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.payment-method-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.payment-method-name {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.payment-method-input:checked + .payment-method-card .payment-method-name {
+    color: #4ecdc4;
+}
+
+/* Стили для кнопки оплаты в disabled состоянии */
+#planDetailsPurchaseBtn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#planDetailsPurchaseBtn:not(:disabled) {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+#planDetailsPurchaseBtn:not(:disabled):hover {
+    background: linear-gradient(135deg, #44a08d, #4ecdc4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+}
+
+/* Секция выбора периода действия абонемента */
+.plan-dates-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-dates-label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.plan-dates-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.plan-date-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.plan-date-field label {
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.plan-date-input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.plan-date-input:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.plan-date-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.plan-date-error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+.plan-dates-info {
+    margin-top: 10px;
+}
+
+.plan-dates-note {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ---- Оплата картой ---- */
+.card-pay-modal { width:min(520px, 92vw); background: rgba(0,0,0,0.85); border-radius: 16px; padding: 22px; color:#fff; position: relative; }
+.cardpay-close { position:absolute; right:16px; top:10px; background:transparent; color:#fff; border:none; font-size:28px; cursor:pointer; }
+.cardpay-title { margin:0 0 12px; text-align:center; }
+.cardpay-form { display:flex; flex-direction:column; gap:12px; }
+.cardpay-grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.cardpay-row label { display:block; margin-bottom:6px; opacity:.9; }
+.cardpay-row input { width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color:#fff; }
+.cardpay-error { display:block; color:#ff6b6b; font-size:12px; min-height:16px; }
+.cardpay-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:6px; }
+.cardpay-status { min-height:20px; font-size:14px; color:#4ecdc4; text-align:center; }
+
+body.light-theme .card-pay-modal { background:#fff; color:#111; }
+body.light-theme .cardpay-close { color:#111; }
+body.light-theme .cardpay-row input { background:#eef1f5; color:#111; border-color: rgba(0,0,0,0.2); }
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 600px) {
+    .plan-dates-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}

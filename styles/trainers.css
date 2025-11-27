@@ -1,0 +1,1441 @@
+/* Стили вкладки "Наши тренеры" */
+
+#trainers-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--footer-h));
+    bottom: var(--footer-h);
+    background-image: url('../Images/zal.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 80px;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#trainers-section.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+#trainers-section.active .section-title {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#trainers-section.active .trainer-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Появление карточек по очереди */
+#trainers-section.active .trainer-card:nth-child(1) {
+    transition-delay: 0.2s;
+}
+
+#trainers-section.active .trainer-card:nth-child(2) {
+    transition-delay: 0.4s;
+}
+
+#trainers-section.active .trainer-card:nth-child(3) {
+    transition-delay: 0.6s;
+}
+
+#trainers-section.active .trainer-card:nth-child(4) {
+    transition-delay: 0.8s;
+}
+
+#trainers-section.active .trainer-card:nth-child(5) {
+    transition-delay: 1s;
+}
+
+.trainers-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    margin-left: 100px; /* смещаем карточки чуть правее */
+    margin-bottom: 20px;
+}
+
+#trainers-section .trainer-card {
+    --trainer-border-color: #dd8448;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    padding: 30px;
+    min-height: 360px;
+    color: #f7f7f7;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    background: transparent;
+}
+
+#trainers-section .trainer-card::before,
+#trainers-section .trainer-card::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#trainers-section .trainer-card::before {
+    background: conic-gradient(
+        from 0deg,
+        color-mix(in oklch, var(--trainer-border-color) 95%, #fff),
+        transparent 35%,
+        color-mix(in oklch, var(--trainer-border-color) 80%, #fff)
+    );
+    animation: trainerBorderSpin 10s linear infinite;
+    filter: blur(0.5px);
+    opacity: 0.9;
+}
+
+#trainers-section .trainer-card::after {
+    inset: 4px;
+    background: linear-gradient(145deg, rgba(5,7,20,0.96), rgba(9,14,33,0.82));
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+
+@keyframes trainerBorderSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#trainers-section .trainer-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+#trainers-section .trainer-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 14px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+#trainers-section .trainer-card h3 {
+    margin: 6px 0 0;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+
+#trainers-section .trainer-card p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+#trainers-section .trainer-card .trainer-email {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    color: #d0d5ff;
+}
+
+#trainers-section .trainer-card .trainer-email a {
+    color: inherit;
+}
+
+#trainers-section .trainer-card .plan-button {
+    margin-top: 12px;
+}
+
+body.light-theme #trainers-section .trainer-card {
+    color: #111;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+body.light-theme #trainers-section .trainer-card::before {
+    opacity: 0.7;
+}
+
+body.light-theme #trainers-section .trainer-card::after {
+    background: rgba(255,255,255,0.9);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.08);
+}
+
+body.light-theme #trainers-section .trainer-card h3 {
+    color: #111;
+}
+
+body.light-theme #trainers-section .trainer-card p {
+    color: #333;
+}
+
+body.light-theme #trainers-section .trainer-card .trainer-email {
+    color: #5f3dc4;
+}
+
+/* Светлая тема: фон */
+body.light-theme #trainers-section {
+    background-image: url('../Images/zalchik.jpg');
+}
+
+body.light-theme .section-title {
+    color: #000;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+}
+
+/* ===== Рейтинг и отзывы ===== */
+.rating-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.stars {
+    display: inline-flex;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 20px;
+    color: #666;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.star.filled {
+    color: #ffb703;
+}
+
+.star:hover {
+    transform: translateY(-1px);
+}
+
+.avg-rating {
+    font-size: 0.9rem;
+    color: #bdbdbd;
+}
+
+.review-form {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.review-textarea {
+    flex: 1;
+    min-height: 60px;
+    resize: vertical;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: #e0e0e0;
+    padding: 8px 10px;
+}
+
+.review-submit-btn {
+    background: #ffb703;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.review-submit-btn:hover {
+    filter: brightness(1.05);
+}
+
+.reviews-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-empty {
+    color: #8a8a8a;
+    font-size: .95rem;
+}
+
+.review-item {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.review-author {
+    font-weight: 700;
+    color: #e0e0e0;
+}
+
+.review-rating {
+    color: #ffb703;
+}
+
+.review-text {
+    color: #cfcfcf;
+    font-size: .95rem;
+    line-height: 1.35;
+}
+
+.admin-del-review {
+    margin-left: 12px;
+    background: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.admin-del-review:hover {
+    background: #e04345;
+}
+
+/* Светлая тема поправки */
+body.light-theme .review-textarea {
+    background: rgba(0,0,0,0.05);
+    color: #222;
+    border-color: rgba(0,0,0,0.1);
+}
+
+body.light-theme .review-item {
+    background: rgba(0,0,0,0.05);
+}
+
+body.light-theme .avg-rating {
+    color: #333;
+}
+
+/* ===== Модальное окно отзыва ===== */
+#reviewModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+/* ===== Стать тренером ===== */
+#become-trainer-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--footer-h));
+    bottom: var(--footer-h);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 80px;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    overflow-y: auto;
+}
+
+#become-trainer-section.active { opacity: 1; visibility: visible; }
+
+.become-container {
+    width: min(1000px, 92vw);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    padding: 22px;
+    color: #fff;
+    margin-top: -40px; /* немного выше середины */
+}
+
+.become-conditions h3 { margin: 0 0 8px; }
+.become-conditions ul { margin: 0 0 16px; padding-left: 18px; }
+.become-conditions li { margin-bottom: 4px; opacity: .9; }
+
+.become-form { display: grid; gap: 12px; }
+.become-form .form-row label { display: block; margin-bottom: 6px; opacity: .9; }
+.become-form input, .become-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+.become-form select { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: #fff; color: #000; }
+.become-form select option { color: #000; background: #fff; }
+.become-form input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+.become-form input[type="number"]::-webkit-outer-spin-button,
+.become-form input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.become-form textarea { min-height: 100px; resize: vertical; }
+.become-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+
+/* Светлая тема */
+body.light-theme #become-trainer-section { background: rgba(255,255,255,0.9); }
+/* Сделаем карточку формы более серой в светлой теме */
+body.light-theme .become-container { background: #e9edf3; color: #111; border-color: rgba(0,0,0,0.12); }
+body.light-theme .become-form input, body.light-theme .become-form textarea { background: rgba(0,0,0,0.05); color: #111; border-color: rgba(0,0,0,0.12); }
+body.light-theme .become-form select { background: #fff; color: #000; border-color: rgba(0,0,0,0.12); }
+body.light-theme .become-form select option { color: #000; background: #fff; }
+
+/* Стиль для input[type=file] */
+.file-input::-webkit-file-upload-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.file-input::file-selector-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+body.light-theme .file-input::-webkit-file-upload-button,
+body.light-theme .file-input::file-selector-button {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* Выровнять высоту кнопок в форме */
+.become-actions .auth-btn { padding: 15px; }
+.become-actions .back-button { padding: 15px 25px; }
+
+#reviewModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.review-modal {
+    width: min(900px, 92vw);
+    max-height: 82vh;
+    overflow: auto;
+    background: rgba(0,0,0,0.85);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+
+.review-close {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.review-header-block {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.review-trainer-photo {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.review-trainer-meta h3 {
+    margin: 0 0 6px;
+    color: #fff;
+}
+
+.review-modal .review-form {
+    margin-top: 12px;
+}
+
+.review-modal .reviews-list {
+    margin-top: 16px;
+}
+
+/* Светлая тема для модалки */
+body.light-theme .review-modal {
+    background: #fff;
+}
+
+body.light-theme .review-close {
+    color: #111;
+}
+
+body.light-theme .review-trainer-meta h3 {
+    color: #111;
+}
+
+/* ===== Модальное окно капчи ===== */
+#captchaModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#captchaModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.captcha-modal {
+    width: min(500px, 92vw);
+    background: rgba(0,0,0,0.85);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    color: #fff;
+}
+
+.captcha-close, .delete-plan-captcha-close {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.captcha-title {
+    margin: 0 0 16px;
+    color: #fff;
+    text-align: center;
+}
+
+.captcha-info {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.captcha-info p {
+    margin: 8px 0;
+    color: #e0e0e0;
+}
+
+.captcha-info strong {
+    color: #ffb703;
+}
+
+.captcha-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.captcha-image {
+    width: 200px;
+    height: 60px;
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 4px;
+    user-select: none;
+    border: 2px solid #ddd;
+}
+
+.captcha-refresh {
+    background: #ffb703;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.captcha-refresh:hover {
+    background: #ffcc00;
+    transform: rotate(180deg);
+}
+
+.captcha-input-group {
+    margin-bottom: 20px;
+}
+
+.captcha-input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.captcha-input-group input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.captcha-error {
+    display: block;
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.captcha-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.captcha-actions .auth-btn {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* Светлая тема для капчи */
+body.light-theme .captcha-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .captcha-close,
+body.light-theme .delete-plan-captcha-close {
+    color: #111;
+}
+
+body.light-theme .captcha-title {
+    color: #111;
+}
+
+body.light-theme .captcha-info p {
+    color: #333;
+}
+
+body.light-theme .captcha-container {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+}
+
+body.light-theme .captcha-input-group input {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .captcha-input-group input::placeholder {
+    color: rgba(0,0,0,0.4);
+}
+
+/* ===== Админ-панель заявок на тренера ===== */
+.applications-admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.application-admin-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 20px;
+    color: #fff;
+}
+
+.application-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.application-admin-info h4 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.application-admin-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+    color: #bdbdbd;
+}
+
+.application-admin-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.application-admin-status.pending {
+    background: rgba(250, 173, 20, 0.2);
+    color: #faad14;
+    border: 1px solid rgba(250, 173, 20, 0.3);
+}
+
+.application-admin-status.approved {
+    background: rgba(82, 196, 26, 0.2);
+    color: #52c41a;
+    border: 1px solid rgba(82, 196, 26, 0.3);
+}
+
+.application-admin-status.rejected {
+    background: rgba(255, 77, 79, 0.2);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+.application-admin-details {
+    margin-bottom: 16px;
+}
+
+.application-admin-details h5 {
+    margin: 0 0 8px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.application-admin-details p {
+    margin: 4px 0;
+    color: #bdbdbd;
+    font-size: 13px;
+}
+
+.application-admin-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.application-admin-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.application-admin-btn.approve {
+    background: #52c41a;
+    color: #fff;
+}
+
+.application-admin-btn.approve:hover {
+    background: #389e0d;
+}
+
+.application-admin-btn.reject {
+    background: #ff4d4f;
+    color: #fff;
+}
+
+.application-admin-btn.reject:hover {
+    background: #d9363e;
+}
+
+.application-admin-btn.delete {
+    background: #8c8c8c;
+    color: #fff;
+}
+
+.application-admin-btn.delete:hover {
+    background: #595959;
+}
+
+.application-admin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.application-admin-btn.current-status {
+    opacity: 0.7;
+    border: 2px solid currentColor;
+    font-weight: 700;
+}
+
+.application-admin-btn.current-status.approve {
+    background: #389e0d;
+    border-color: #52c41a;
+}
+
+.application-admin-btn.current-status.reject {
+    background: #d9363e;
+    border-color: #ff4d4f;
+}
+
+.admin-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Светлая тема для админ-панели заявок */
+body.light-theme .application-admin-item {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+    color: #111;
+}
+
+body.light-theme .application-admin-info h4 {
+    color: #111;
+}
+
+body.light-theme .application-admin-meta {
+    color: #666;
+}
+
+body.light-theme .application-admin-details h5 {
+    color: #333;
+}
+
+body.light-theme .application-admin-details p {
+    color: #666;
+}
+
+/* ===== Модальное окно тренера ===== */
+#trainerModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#trainerModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.trainer-modal {
+    width: min(600px, 92vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.85);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    color: #fff;
+}
+
+.trainer-close {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.trainer-title {
+    margin: 0 0 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.trainer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.trainer-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.trainer-form-group label {
+    font-weight: 600;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.trainer-form-group input,
+.trainer-form-group textarea,
+.trainer-form-group select {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 14px;
+}
+
+.trainer-form-group input::placeholder,
+.trainer-form-group textarea::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.trainer-form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.trainer-form-group select {
+    background: #fff;
+    color: #000;
+}
+
+.trainer-form-group select option {
+    color: #000;
+    background: #fff;
+}
+
+.trainer-photo-preview {
+    margin-top: 8px;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.trainer-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.trainer-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.trainer-actions .auth-btn {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* ===== Админ-панель тренеров ===== */
+.trainers-admin-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.trainer-admin-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    position: relative;
+}
+
+.trainer-admin-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.1);
+}
+
+.trainer-admin-info h4 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.trainer-admin-details {
+    margin-bottom: 12px;
+}
+
+.trainer-admin-details p {
+    margin: 4px 0;
+    color: #bdbdbd;
+    font-size: 13px;
+}
+
+.trainer-admin-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.trainer-admin-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.trainer-admin-btn.edit {
+    background: #1890ff;
+    color: #fff;
+}
+
+.trainer-admin-btn.edit:hover {
+    background: #096dd9;
+}
+
+.trainer-admin-btn.delete {
+    background: #ff4d4f;
+    color: #fff;
+}
+
+.trainer-admin-btn.delete:hover {
+    background: #d9363e;
+}
+
+/* Светлая тема для модального окна тренера */
+body.light-theme .trainer-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .trainer-close {
+    color: #111;
+}
+
+body.light-theme .trainer-title {
+    color: #111;
+}
+
+body.light-theme .trainer-form-group label {
+    color: #333;
+}
+
+body.light-theme .trainer-form-group input,
+body.light-theme .trainer-form-group textarea {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .trainer-form-group input::placeholder,
+body.light-theme .trainer-form-group textarea::placeholder {
+    color: rgba(0,0,0,0.4);
+}
+
+body.light-theme .trainer-photo-preview {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.2);
+}
+
+/* Светлая тема для админ-панели тренеров */
+body.light-theme .trainer-admin-item {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+    color: #111;
+}
+
+body.light-theme .trainer-admin-info h4 {
+    color: #111;
+}
+
+body.light-theme .trainer-admin-details p {
+    color: #666;
+}
+
+/* ===== Модальное окно абонемента ===== */
+#subscriptionModal.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+}
+
+#subscriptionModal.modal:not(.hidden) {
+    display: flex;
+}
+
+.subscription-modal {
+    width: min(700px, 92vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.85);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    color: #fff;
+}
+
+.subscription-close {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.subscription-title {
+    margin: 0 0 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.subscription-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.subscription-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.subscription-form-group label {
+    font-weight: 600;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.subscription-form-group input,
+.subscription-form-group textarea,
+.subscription-form-group select {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 14px;
+}
+
+.subscription-form-group input::placeholder,
+.subscription-form-group textarea::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+.subscription-form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.subscription-form-group select {
+    background: #fff;
+    color: #000;
+}
+
+.subscription-form-group select option {
+    color: #000;
+    background: #fff;
+}
+
+.subscription-gyms {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.subscription-gyms label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.subscription-gyms input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.subscription-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.subscription-actions .auth-btn {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* ===== Админ-панель абонементов ===== */
+.subscriptions-admin-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.subscription-admin-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 16px;
+    color: #fff;
+    position: relative;
+}
+
+.subscription-admin-info h4 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.subscription-admin-details {
+    margin-bottom: 12px;
+}
+
+.subscription-admin-details p {
+    margin: 4px 0;
+    color: #bdbdbd;
+    font-size: 13px;
+}
+
+.subscription-admin-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffb703;
+    margin: 8px 0;
+}
+
+.subscription-admin-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.subscription-admin-status.active {
+    background: rgba(82, 196, 26, 0.2);
+    color: #52c41a;
+    border: 1px solid rgba(82, 196, 26, 0.3);
+}
+
+.subscription-admin-status.inactive {
+    background: rgba(255, 77, 79, 0.2);
+    color: #ff4d4f;
+    border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+.subscription-admin-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.subscription-admin-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.subscription-admin-btn.edit {
+    background: #1890ff;
+    color: #fff;
+}
+
+.subscription-admin-btn.edit:hover {
+    background: #096dd9;
+}
+
+.subscription-admin-btn.delete {
+    background: #ff4d4f;
+    color: #fff;
+}
+
+.subscription-admin-btn.delete:hover {
+    background: #d9363e;
+}
+
+.subscription-admin-btn.toggle {
+    background: #52c41a;
+    color: #fff;
+}
+
+.subscription-admin-btn.toggle:hover {
+    background: #389e0d;
+}
+
+/* Светлая тема для модального окна абонемента */
+body.light-theme .subscription-modal {
+    background: #fff;
+    color: #111;
+}
+
+body.light-theme .subscription-close {
+    color: #111;
+}
+
+body.light-theme .subscription-title {
+    color: #111;
+}
+
+body.light-theme .subscription-form-group label {
+    color: #333;
+}
+
+body.light-theme .subscription-form-group input,
+body.light-theme .subscription-form-group textarea {
+    background: rgba(0,0,0,0.05);
+    color: #111;
+    border-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme .subscription-form-group input::placeholder,
+body.light-theme .subscription-form-group textarea::placeholder {
+    color: rgba(0,0,0,0.4);
+}
+
+/* Светлая тема для админ-панели абонементов */
+body.light-theme .subscription-admin-item {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+    color: #111;
+}
+
+body.light-theme .subscription-admin-info h4 {
+    color: #111;
+}
+
+body.light-theme .subscription-admin-details p {
+    color: #666;
+}
+
+/* Медиа-запросы для адаптивности карточек тренеров */
+@media (max-width: 480px) {
+    #trainers-section {
+        padding-top: 100px;
+        padding-bottom: 30px;
+        justify-content: flex-start;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .trainers-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 15px;
+    }
+    
+    #trainers-section.active .trainer-card {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        transition: none !important;
+    }
+    
+    /* Отключаем задержки анимации на мобильных */
+    #trainers-section.active .trainer-card:nth-child(1),
+    #trainers-section.active .trainer-card:nth-child(2),
+    #trainers-section.active .trainer-card:nth-child(3),
+    #trainers-section.active .trainer-card:nth-child(4),
+    #trainers-section.active .trainer-card:nth-child(5) {
+        transition-delay: 0s !important;
+    }
+}
+
+@media (max-width: 600px) and (min-width: 481px) {
+    #trainers-section {
+        padding-top: 100px;
+        padding-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+    
+    .trainers-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 18px;
+        padding: 0 18px;
+    }
+    
+    #trainers-section.active .trainer-card {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+    }
+}

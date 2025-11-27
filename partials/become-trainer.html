@@ -1,0 +1,64 @@
+<section id="become-trainer-section" class="hidden">
+  <div class="section-title">Стать тренером</div>
+  <div class="become-container">
+    <div class="become-conditions">
+      <h3>Условия сотрудничества</h3>
+      <ul>
+        <li>Профильное образование или сертификаты</li>
+        <li>Стаж работы от 1 года</li>
+        <li>Ответственность и клиентоориентированность</li>
+        <li>Готовность работать по графику зала</li>
+      </ul>
+    </div>
+    <form id="becomeTrainerForm" class="become-form">
+      <div class="form-row">
+        <label for="btName">Имя</label>
+        <input id="btName" type="text" maxlength="13" placeholder="Ваше имя (до 13 символов)" required>
+      </div>
+      <div class="form-row">
+        <label for="btExperience">Стаж работы</label>
+        <select id="btExperience" required>
+          <option value="" disabled selected>Выберите стаж</option>
+          <option value="1">1 год</option>
+          <option value="2">2 года</option>
+          <option value="3">3 года</option>
+          <option value="4">4 года</option>
+          <option value="5">5 лет</option>
+          <option value="6">6 лет</option>
+          <option value="7">7 лет</option>
+          <option value="8">8 лет</option>
+          <option value="9">9 лет</option>
+          <option value="10">10+ лет</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="btGym">В какой зал хотите прийти тренером</label>
+        <select id="btGym" required>
+          <option value="nemiga">Немига Бизнес-центр</option>
+          <option value="prityckogo">Притыцкого</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="btPhone">Телефон для связи</label>
+        <input id="btPhone" type="tel" placeholder="+375 29 123-45-67" required>
+      </div>
+      <div class="form-row">
+        <label for="btEmail">Email (по желанию)</label>
+        <input id="btEmail" type="email" placeholder="you@example.com">
+      </div>
+      <div class="form-row">
+        <label for="btAbout">О себе</label>
+        <textarea id="btAbout" maxlength="500" placeholder="Коротко расскажите о своём опыте" required></textarea>
+      </div>
+      <div class="form-row">
+        <label for="btFile">Вложение (резюме/сертификаты)</label>
+        <input id="btFile" class="file-input" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx">
+      </div>
+      <div class="become-actions">
+        <button type="button" class="auth-btn" id="becomeTrainerSubmitBtn">Отправить заявку</button>
+        <button type="button" class="back-button" onclick="closeBecomeTrainer()">← Назад на главную</button>
+      </div>
+    </form>
+  </div>
+</section>
+

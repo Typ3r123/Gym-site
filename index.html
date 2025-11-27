@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PurePulse</title>
+  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/profile.css" />
+  <link rel="stylesheet" href="styles/trainers.css" />
+  <link rel="stylesheet" href="styles/abonements.css" />
+  <link rel="stylesheet" href="styles/contacts.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+      }
+    }
+  </script>
+  
+</head>
+<body>
+
+  <div class="logo">PurePulse</div>
+
+  <nav class="navbar">
+    <button class="nav-toggle" id="navToggle" aria-label="Открыть меню">☰</button>
+    <ul id="navMenu">
+      <li><a href="#abonements">Абонементы</a></li>
+      <li><a href="#trainers">Наши тренеры</a></li>
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#become_trainer">Стать тренером</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+      <li><a href="#profile" id="profileLink">Личный кабинет</a></li>
+      <li><a href="#login" id="authOpenBtn">Войти</a></li>
+      <li><a href="#manager" id="managerLink" style="display:none;">Менеджер</a></li>
+      <li><a href="#admin" id="adminLink">Админ</a></li>
+    </ul>
+  </nav>
+
+  <div class="background"></div>
+  <div id="heroAnimationRoot" class="hero-visual theme-molten">
+    <div id="heroCanvas"></div>
+    <div class="glow"></div>
+    <div id="ui-bottom-right" class="ui-panel">
+      <div id="action-buttons">
+        <button id="pulseBtn" class="theme-btn" type="button" title="Click for pulse. Hold to charge.">
+          Pulse
+        </button>
+      </div>
+      <div class="toggle-option">
+        <label for="animateToggle">Animate</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="animateToggle" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <main class="content" id="content">
+    <h1>Добро пожаловать в PurePulse</h1>
+    <p>Мы помогаем вам достичь идеальной формы.</p>
+  </main>
+
+  <div id="authModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="auth-container">
+        <div class="auth-tabs">
+          <button class="tab-btn active" data-tab="login">Вход</button>
+          <button class="tab-btn" data-tab="register">Регистрация</button>
+        </div>
+        <form id="loginForm" class="auth-form active">
+          <h2>Добро пожаловать в PurePulse</h2>
+          <div class="form-group">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <span class="error" id="loginEmailError"></span>
+          </div>
+          <div class="form-group">
+            <div class="password-input-wrapper">
+              <input type="password" id="loginPassword" placeholder="Пароль" required>
+              <button type="button" class="password-toggle" id="loginPasswordToggle">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <span class="error" id="loginPasswordError"></span>
+          </div>
+          <button type="submit" class="auth-btn">Войти</button>
+        </form>
+        <form id="registerForm" class="auth-form">
+          <h2>Присоединяйтесь к PurePulse</h2>
+          <div class="form-group">
+            <input type="text" id="registerName" placeholder="Имя" maxlength="15" required>
+            <span class="error" id="registerNameError"></span>
+          </div>
+          <div class="form-group">
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <span class="error" id="registerEmailError"></span>
+          </div>
+          <div class="form-group">
+            <div class="password-input-wrapper">
+              <input type="password" id="registerPassword" placeholder="Пароль" required>
+              <button type="button" class="password-toggle" id="registerPasswordToggle">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <div class="password-strength">
+              <div class="password-strength-bar">
+                <div class="password-strength-fill"></div>
+              </div>
+              <div class="password-requirements">
+                <div class="requirement" data-requirement="length">Минимум 8 символов</div>
+                <div class="requirement" data-requirement="number">Содержит цифру</div>
+                <div class="requirement" data-requirement="special">Содержит спец. символ (@! и др.)</div>
+              </div>
+            </div>
+            <span class="error" id="registerPasswordError"></span>
+          </div>
+          <div class="form-group">
+            <div class="password-input-wrapper">
+              <input type="password" id="registerConfirmPassword" placeholder="Подтвердите пароль" required>
+              <button type="button" class="password-toggle" id="registerConfirmPasswordToggle">
+                <span class="eye-icon">👁</span>
+              </button>
+            </div>
+            <span class="error" id="registerConfirmPasswordError"></span>
+          </div>
+          <button type="submit" class="auth-btn">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div data-include="partials/trainers.html"></div>
+  <div data-include="partials/become-trainer.html"></div>
+  <div data-include="partials/abonements.html"></div>
+  <div data-include="partials/profile.html"></div>
+  <div data-include="partials/contacts.html"></div>
+  <div data-include="partials/about.html"></div>
+  <div data-include="partials/admin.html"></div>
+  <div data-include="partials/manager.html"></div>
+  <div class="header">
+    <div class="logo">PurePulse</div>
+    <div class="theme-toggle" id="themeToggle">
+      <label class="gsap-switch">
+        <input type="checkbox" id="themeSwitch" aria-label="Переключить тему" />
+        <div class="svg-wrap" aria-hidden="true">
+          <svg height="36" width="84" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="theme-gradient-pattern" patternUnits="userSpaceOnUse" width="1" height="4">
+                <rect width="100%" height="2" fill="#181a29" />
+                <rect y="2" width="100%" height="2" fill="#202436" />
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="84" height="36" fill="url(#theme-gradient-pattern)" />
+            <g class="switch">
+              <rect x="6" y="6" width="24" height="2" />
+              <rect x="6" y="8" width="24" height="2" />
+              <rect x="6" y="10" width="24" height="2" />
+              <rect x="6" y="12" width="24" height="2" />
+              <rect x="6" y="14" width="24" height="2" />
+              <rect x="6" y="16" width="24" height="2" />
+              <rect x="6" y="18" width="24" height="2" />
+              <rect x="6" y="20" width="24" height="2" />
+              <rect x="6" y="22" width="24" height="2" />
+              <rect x="6" y="24" width="24" height="2" />
+              <rect x="6" y="26" width="24" height="2" />
+              <rect x="6" y="28" width="24" height="2" />
+            </g>
+          </svg>
+        </div>
+      </label>
+    </div>
+  </div>
+  
+  
+  
+  <!-- Модалка записи на тренировку -->
+  <div id="bookModal" class="modal hidden">
+    <div class="modal-content book-modal">
+      <button class="book-close" aria-label="Закрыть">×</button>
+      <div class="book-header">
+        <h3 class="book-title">Запись на тренировку</h3>
+      </div>
+      <div id="bookWarning" class="book-warning" style="display:none;"></div>
+      <form id="bookForm" class="book-form">
+        <!-- Шаг 1: Выбор зала и тренера -->
+        <div class="book-step" id="bookStep1">
+          <div class="book-step-title">Шаг 1: Выберите зал и тренера</div>
+          <div class="book-gym-selector">
+            <label for="bookGym">Зал</label>
+            <select id="bookGym" required>
+              <option value="nemiga">Немига Бизнес-центр</option>
+              <option value="prityckogo">Притыцкого</option>
+            </select>
+          </div>
+          <div class="book-trainers-grid" id="bookTrainersGrid"></div>
+        </div>
+        
+        <!-- Шаг 2: Выбор даты и времени -->
+        <div class="book-step hidden" id="bookStep2">
+          <div class="book-step-title">Шаг 2: Выберите дату и время</div>
+          <div class="book-selected-trainer" id="bookSelectedTrainerInfo"></div>
+          <div class="book-schedule-body">
+            <div class="book-calendar">
+              <div class="book-calendar-header">
+                <button type="button" class="book-calendar-nav" id="bookPrevMonth">← Назад</button>
+                <div class="book-calendar-month" id="bookMonthLabel"></div>
+                <button type="button" class="book-calendar-nav" id="bookNextMonth">Вперёд →</button>
+              </div>
+              <div class="book-calendar-weekdays">
+                <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+              </div>
+              <div class="book-calendar-grid" id="bookCalendarDays"></div>
+            </div>
+            <div class="book-time-panel">
+              <div class="book-selected-date" id="bookSelectedDate">Выберите дату в календаре</div>
+              <div class="book-time-slots-container">
+                <div class="book-time-slots-label">Доступные временные слоты:</div>
+                <div class="book-time-slots-grid" id="bookTimeSlots"></div>
+              </div>
+              <div class="book-notes-container">
+                <label for="bookNotes">Пожелания (необязательно)</label>
+                <textarea id="bookNotes" placeholder="Опишите цель тренировки, пожелания и т.д." maxlength="60"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="book-actions">
+          <button type="button" class="back-button" id="bookBackBtn" style="display:none;">Назад</button>
+          <button type="submit" class="auth-btn" id="bookSubmitBtn" style="display:none;">Записаться</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модалка моих записей -->
+  <div id="bookingsModal" class="modal hidden">
+    <div class="modal-content bookings-modal">
+      <button class="bookings-close" aria-label="Закрыть">×</button>
+      <h3 class="bookings-title">Мои записи</h3>
+      <div id="bookingsList" class="bookings-list"></div>
+    </div>
+  </div>
+
+  <div id="trainerClientsModal" class="modal hidden">
+    <div class="modal-content trainer-clients-modal">
+      <button class="trainer-clients-close" aria-label="Закрыть">×</button>
+      <h3 class="trainer-clients-title">Записи ко мне</h3>
+      <div id="trainerClientsList" class="trainer-clients-list"></div>
+    </div>
+  </div>
+  <div id="trainerScheduleModal" class="modal hidden">
+    <div class="modal-content trainer-schedule-modal">
+      <button class="trainer-schedule-close" aria-label="Закрыть">×</button>
+      <div class="trainer-schedule-header">
+        <h3 class="trainer-schedule-title">Настройка расписания</h3>
+        <div class="trainer-schedule-steps">
+          <span class="step active"></span>
+          <span class="step"></span>
+          <span class="step"></span>
+        </div>
+      </div>
+      <p class="trainer-schedule-note">Выберите минимум 10 рабочих дней на текущий и следующий месяц. Для каждого дня выберите до 6 временных слотов (каждый слот — 2 часа).</p>
+      <div class="trainer-schedule-body">
+        <div class="trainer-calendar">
+          <div class="trainer-calendar-header">
+            <button type="button" class="trainer-calendar-nav" id="trainerSchedulePrevMonth">← Назад</button>
+            <div class="trainer-calendar-month" id="trainerScheduleMonthLabel">Ноябрь 2025</div>
+            <button type="button" class="trainer-calendar-nav" id="trainerScheduleNextMonth">Вперёд →</button>
+          </div>
+          <div class="trainer-calendar-weekdays">
+            <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+          </div>
+          <div class="trainer-calendar-grid" id="trainerScheduleCalendarDays"></div>
+        </div>
+        <div class="trainer-time-panel">
+          <div class="trainer-schedule-counter" id="trainerScheduleCounter">0 выбранных дней</div>
+          <div class="trainer-time-selected" id="trainerScheduleSelectedDate">Выберите дату в календаре</div>
+          <div class="trainer-time-slots-container">
+            <div class="trainer-time-slots-label">Выберите временные слоты (максимум 6, каждый слот — 2 часа):</div>
+            <div class="trainer-time-slots-grid" id="trainerScheduleTimeSlots"></div>
+            <div class="trainer-time-slots-counter" id="trainerScheduleTimeSlotsCounter">Выбрано: 0 из 6</div>
+          </div>
+          <button type="button" class="trainer-schedule-remove" id="trainerScheduleRemoveBtn" disabled>Удалить день</button>
+          <div class="trainer-time-tip">Если вы выбрали слот в 12:00, следующий доступный слот будет только в 14:00 (каждый слот занимает 2 часа).</div>
+          <div id="trainerScheduleInfo" class="trainer-schedule-info"></div>
+        </div>
+      </div>
+      <div class="trainer-schedule-actions">
+        <button type="button" class="back-button" id="trainerScheduleCancelBtn">Отмена</button>
+        <button type="button" class="auth-btn" id="trainerScheduleSaveBtn">Сохранить расписание</button>
+      </div>
+    </div>
+  </div>
+  <!-- Email sending handled via REST API in functional.js (no SDK needed) -->
+  <div id="reviewModal" class="modal hidden">
+    <div class="modal-content review-modal">
+      <button class="review-close" aria-label="Закрыть">×</button>
+      <div class="review-header-block">
+        <img class="review-trainer-photo" alt="Тренер" />
+        <div class="review-trainer-meta">
+          <h3 class="review-trainer-name"></h3>
+          <div class="rating-wrap">
+            <div class="stars"></div>
+            <div class="avg-rating"></div>
+          </div>
+        </div>
+      </div>
+      <div class="review-form">
+        <textarea class="review-textarea" placeholder="Напишите отзыв..."></textarea>
+        <button class="review-submit-btn">Оставить отзыв</button>
+      </div>
+      <div class="reviews-list"></div>
+    </div>
+  </div>
+
+  <!-- ЭПИЧНОЕ МОДАЛЬНОЕ ОКНО УСПЕШНОЙ ПОКУПКИ (СКРЫТО) -->
+  <div id="purchaseSuccessModal" class="purchase-success-overlay" style="display: none !important;">
+    <div class="purchase-success-content">
+      <div class="success-title">ПОЗДРАВЛЯЕМ!</div>
+      <div class="success-subtitle">Абонемент успешно приобретен!</div>
+      <div class="success-plan-name" id="successPlanName"></div>
+      <button class="success-close-btn" onclick="closePurchaseSuccess()">Продолжить</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно капчи для заявки на тренера -->
+  <div id="captchaModal" class="modal hidden">
+    <div class="modal-content captcha-modal">
+      <button class="captcha-close" aria-label="Закрыть">×</button>
+      <h3 class="captcha-title">Подтверждение заявки</h3>
+      <div class="captcha-info">
+        <p>Вы можете подать заявку на тренера только <strong>1 раз в неделю</strong>.</p>
+        <p>Введите 6-значный код с картинки для подтверждения:</p>
+      </div>
+      <div class="captcha-container">
+        <div class="captcha-image" id="captchaImage"></div>
+        <button class="captcha-refresh" id="captchaRefresh">🔄</button>
+      </div>
+      <div class="captcha-input-group">
+        <input type="text" id="captchaInput" placeholder="Введите 6 цифр" maxlength="6" pattern="[0-9]{6}">
+        <span class="captcha-error" id="captchaError"></span>
+      </div>
+      <div class="captcha-actions">
+        <button type="button" class="back-button" onclick="closeCaptchaModal()">Отмена</button>
+        <button type="button" class="auth-btn" id="captchaSubmit">Отправить заявку</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно капчи для удаления абонемента -->
+  <div id="deletePlanCaptchaModal" class="modal hidden">
+    <div class="modal-content captcha-modal">
+      <button class="delete-plan-captcha-close" aria-label="Закрыть">×</button>
+      <h3 class="captcha-title">Удаление абонемента</h3>
+      <div class="captcha-info">
+        <p><strong style="color: #ff6b6b;">⚠️ Внимание!</strong> Вы уверены, что хотите удалить этот абонемент?</p>
+        <p>Это действие нельзя отменить. Введите 6-значный код с картинки для подтверждения:</p>
+      </div>
+      <div class="captcha-container">
+        <div class="captcha-image" id="deletePlanCaptchaImage"></div>
+        <button class="captcha-refresh" id="deletePlanCaptchaRefresh">🔄</button>
+      </div>
+      <div class="captcha-input-group">
+        <input type="text" id="deletePlanCaptchaInput" placeholder="Введите 6 цифр" maxlength="6" pattern="[0-9]{6}">
+        <span class="captcha-error" id="deletePlanCaptchaError"></span>
+      </div>
+      <div class="captcha-actions">
+        <button type="button" class="back-button" onclick="closeDeletePlanCaptchaModal()">Отмена</button>
+        <button type="button" class="auth-btn" id="deletePlanCaptchaSubmit" style="background: #ff6b6b;">Удалить абонемент</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно капчи для удаления всех абонементов -->
+  <div id="clearSubscriptionsCaptchaModal" class="modal hidden">
+    <div class="modal-content captcha-modal">
+      <button class="clear-subscriptions-captcha-close" aria-label="Закрыть">×</button>
+      <h3 class="captcha-title">Удаление всех абонементов</h3>
+      <div class="captcha-info">
+        <p><strong style="color: #ff6b6b;">⚠️ Внимание!</strong> Будут удалены <strong>все</strong> абонементы. Это действие нельзя отменить.</p>
+        <p>Введите 6-значный код с картинки для подтверждения:</p>
+      </div>
+      <div class="captcha-container">
+        <div class="captcha-image" id="clearSubscriptionsCaptchaImage"></div>
+        <button class="captcha-refresh" id="clearSubscriptionsCaptchaRefresh">🔄</button>
+      </div>
+      <div class="captcha-input-group">
+        <input type="text" id="clearSubscriptionsCaptchaInput" placeholder="Введите 6 цифр" maxlength="6" pattern="[0-9]{6}">
+        <span class="captcha-error" id="clearSubscriptionsCaptchaError"></span>
+      </div>
+      <div class="captcha-actions">
+        <button type="button" class="back-button" onclick="closeClearSubscriptionsCaptchaModal()">Отмена</button>
+        <button type="button" class="auth-btn" id="clearSubscriptionsCaptchaSubmit" style="background: #ff6b6b;">Удалить все</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно подтверждения действий (универсальное) -->
+  <div id="confirmModal" class="modal hidden">
+    <div class="modal-content" style="max-width:420px;">
+      <div style="padding:20px 22px; color:#fff;">
+        <h3 style="margin:0 0 10px 0; font-size:20px;">Подтверждение</h3>
+        <p id="confirmText" style="margin:0 0 16px 0; color:#ddd;">Вы уверены?</p>
+        <div class="confirm-actions" style="display:flex; gap:10px; justify-content:flex-end;">
+          <button id="confirmCancelBtn" class="back-button" style="background:#555; color:#fff;">Отмена</button>
+          <button id="confirmOkBtn" class="auth-btn">Да</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно добавления/редактирования тренера -->
+  <div id="trainerModal" class="modal hidden">
+    <div class="modal-content trainer-modal">
+      <button class="trainer-close" aria-label="Закрыть">×</button>
+      <h3 class="trainer-title" id="trainerModalTitle">Добавить тренера</h3>
+      <form id="trainerForm" class="trainer-form">
+        <div class="trainer-form-group">
+          <label for="trainerName">Имя тренера</label>
+          <input type="text" id="trainerName" placeholder="Введите имя тренера" required>
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerEmail">Email тренера</label>
+          <input type="email" id="trainerEmail" placeholder="trainer@example.com" required>
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerDescription">Описание</label>
+          <textarea id="trainerDescription" placeholder="Опишите специализацию тренера" required></textarea>
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerPhoto">Фото тренера</label>
+          <input type="file" id="trainerPhoto" accept="image/*">
+          <div class="trainer-photo-preview" id="trainerPhotoPreview"></div>
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerGym">Зал</label>
+          <select id="trainerGym" required>
+            <option value="nemiga">Немига Бизнес-центр</option>
+            <option value="prityckogo">Притыцкого</option>
+          </select>
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerSpecialization">Специализация</label>
+          <input type="text" id="trainerSpecialization" placeholder="Например: Силовые тренировки, Йога, Кроссфит">
+        </div>
+        <div class="trainer-form-group">
+          <label for="trainerExperience">Опыт работы (лет)</label>
+          <input type="number" id="trainerExperience" min="0" max="50" placeholder="Например: 5">
+        </div>
+        <div class="trainer-actions">
+          <button type="button" class="back-button" onclick="closeTrainerModal()">Отмена</button>
+          <button type="submit" class="auth-btn" id="trainerSubmit">Сохранить тренера</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно детального просмотра абонемента -->
+  <div id="planDetailsModal" class="modal hidden">
+    <div class="modal-content plan-details-modal">
+      <button class="plan-details-close" aria-label="Закрыть">×</button>
+      <h3 class="plan-details-title" id="planDetailsTitle">Детальная информация</h3>
+      <div class="plan-details-content">
+        <div class="plan-details-info">
+          <p id="planDetailsDescription"></p>
+          <div class="plan-details-extra-info" id="planDetailsExtraInfo"></div>
+          <div class="plan-details-price-section">
+            <label for="planCurrency">Валюта оплаты:</label>
+            <select id="planCurrency" class="plan-currency-select">
+              <option value="BYN">BYN</option>
+              <option value="RUB">RUB</option>
+              <option value="USD">USD</option>
+            </select>
+            <div class="plan-price-display">
+              <span class="plan-price-label">Цена:</span>
+              <span class="plan-price-value" id="planPriceDisplay"></span>
+            </div>
+          </div>
+          <div class="payment-methods-section">
+            <label class="payment-methods-label">Способ оплаты:</label>
+            <div class="payment-methods-container">
+              <label class="payment-method-option">
+                <input type="radio" name="paymentMethod" value="mastercard" id="paymentMastercard" class="payment-method-input" checked required>
+                <div class="payment-method-card">
+                  <span class="payment-method-icon">💳</span>
+                  <span class="payment-method-name">Mastercard</span>
+                </div>
+              </label>
+              <label class="payment-method-option">
+                <input type="radio" name="paymentMethod" value="paypal" id="paymentPaypal" class="payment-method-input" required>
+                <div class="payment-method-card">
+                  <span class="payment-method-icon">🔵</span>
+                  <span class="payment-method-name">PayPal</span>
+                </div>
+              </label>
+              <label class="payment-method-option">
+                <input type="radio" name="paymentMethod" value="googlepay" id="paymentGooglepay" class="payment-method-input" required>
+                <div class="payment-method-card">
+                  <span class="payment-method-icon">📱</span>
+                  <span class="payment-method-name">Google Pay</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="plan-dates-section">
+            <label class="plan-dates-label">Период действия абонемента:</label>
+            <div class="plan-dates-container">
+              <div class="plan-date-field">
+                <label for="planStartDate">Дата начала:</label>
+                <input type="date" id="planStartDate" class="plan-date-input" required>
+                <span class="plan-date-error" id="planStartDateError"></span>
+              </div>
+              <div class="plan-date-field">
+                <label for="planEndDate">Дата окончания:</label>
+                <input type="date" id="planEndDate" class="plan-date-input" required>
+                <span class="plan-date-error" id="planEndDateError"></span>
+              </div>
+            </div>
+            <div class="plan-dates-info">
+              <p class="plan-dates-note">Выберите период действия абонемента. Минимальный срок — 1 день, максимальный — 365 дней. Для месячных абонементов максимальный срок — 30 дней.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="plan-details-actions">
+        <button type="button" class="back-button" onclick="closePlanDetailsModal()">Отмена</button>
+        <button type="button" class="auth-btn" id="planDetailsPurchaseBtn">Оплатить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно оплаты картой -->
+  <div id="cardPayModal" class="modal hidden">
+    <div class="modal-content card-pay-modal">
+      <button class="cardpay-close" aria-label="Закрыть">×</button>
+      <h3 class="cardpay-title">Оплата банковской картой</h3>
+      <form id="cardPayForm" class="cardpay-form">
+        <div class="cardpay-row">
+          <label for="cardNumber">Номер карты</label>
+          <input id="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19" required>
+          <span class="cardpay-error" id="cardNumberError"></span>
+        </div>
+        <div class="cardpay-grid">
+          <div class="cardpay-row">
+            <label for="cardExpiry">Срок (MM/YY)</label>
+            <input id="cardExpiry" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" required>
+            <span class="cardpay-error" id="cardExpiryError"></span>
+          </div>
+          <div class="cardpay-row">
+            <label for="cardCvc">CVC</label>
+            <input id="cardCvc" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4" required>
+            <span class="cardpay-error" id="cardCvcError"></span>
+          </div>
+        </div>
+        <div class="cardpay-row">
+          <label for="cardHolder">Держатель карты</label>
+          <input id="cardHolder" type="text" autocomplete="cc-name" placeholder="ИМЯ ФАМИЛИЯ" required>
+          <span class="cardpay-error" id="cardHolderError"></span>
+        </div>
+        <div class="cardpay-actions">
+          <button type="button" class="back-button" id="cardPayCancel">Отмена</button>
+          <button type="submit" class="auth-btn" id="cardPaySubmit">Оплатить</button>
+        </div>
+        <div class="cardpay-status" id="cardPayStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модалка информации об абонементе -->
+  <div id="planInfoModal" class="modal hidden">
+    <div class="modal-content planinfo-modal">
+      <button class="planinfo-close" aria-label="Закрыть">×</button>
+      <h3 class="planinfo-title">Информация об абонементе</h3>
+      <div class="planinfo-body">
+        <div class="planinfo-row"><span>Название:</span><strong id="piTitle"></strong></div>
+        <div class="planinfo-row"><span>Цена:</span><strong id="piPrice"></strong></div>
+        <div class="planinfo-row"><span>Начало:</span><strong id="piStart"></strong></div>
+        <div class="planinfo-row"><span>Окончание:</span><strong id="piEnd"></strong></div>
+        <div class="planinfo-row"><span>Источник:</span><strong id="piSource"></strong></div>
+        <div class="planinfo-row"><span>Оплата:</span><strong id="piPayment"></strong></div>
+        <div class="planinfo-row" id="piCardRow" style="display:none;"><span>Карта:</span><strong id="piCard"></strong></div>
+      </div>
+      <div class="planinfo-actions">
+        <button class="back-button" id="planinfoOk">Ок</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно добавления/редактирования абонемента -->
+  <div id="subscriptionModal" class="modal hidden">
+    <div class="modal-content subscription-modal">
+      <button class="subscription-close" aria-label="Закрыть">×</button>
+      <h3 class="subscription-title" id="subscriptionModalTitle">Добавить абонемент</h3>
+      <form id="subscriptionForm" class="subscription-form">
+        <div class="subscription-form-group">
+          <label for="subscriptionName">Название абонемента</label>
+          <input type="text" id="subscriptionName" placeholder="Введите название абонемента" required>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionDescription">Описание</label>
+          <textarea id="subscriptionDescription" placeholder="Опишите условия абонемента" required></textarea>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionPrice">Цена (BYN)</label>
+          <input type="number" id="subscriptionPrice" min="0" step="0.01" placeholder="Например: 100.00" required>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionDuration">Длительность (дней)</label>
+          <input type="number" id="subscriptionDuration" min="1" placeholder="Например: 30" required>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionType">Тип абонемента</label>
+          <select id="subscriptionType" required>
+            <option value="trial">Пробное занятие</option>
+            <option value="single">Разовое занятие</option>
+            <option value="monthly">Месячный</option>
+            <option value="quarterly">Квартальный</option>
+            <option value="half-yearly">Полугодовой</option>
+            <option value="yearly">Годовой</option>
+            <option value="unlimited">Безлимитный</option>
+          </select>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionAccess">Доступ</label>
+          <select id="subscriptionAccess" required>
+            <option value="24/7">24/7</option>
+            <option value="daytime">Дневное время (14:00-16:00)</option>
+            <option value="evening">Вечернее время (18:00-22:00)</option>
+            <option value="morning">Утреннее время (6:00-12:00)</option>
+          </select>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionGym">Доступные залы</label>
+          <div class="subscription-gyms">
+            <label><input type="checkbox" id="subscriptionGymNemiga" value="nemiga"> Немига Бизнес-центр</label>
+            <label><input type="checkbox" id="subscriptionGymPrityckogo" value="prityckogo"> Притыцкого</label>
+          </div>
+        </div>
+        <div class="subscription-form-group">
+          <label for="subscriptionActive">Статус</label>
+          <select id="subscriptionActive" required>
+            <option value="true">Активный</option>
+            <option value="false">Неактивный</option>
+          </select>
+        </div>
+        <div class="subscription-actions">
+          <button type="button" class="back-button" onclick="closeSubscriptionModal()">Отмена</button>
+          <button type="submit" class="auth-btn" id="subscriptionSubmit">Сохранить абонемент</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="scripts/home-animation.js"></script>
+  <script src="scripts/partials-loader.js"></script>
+</body>
+</html>

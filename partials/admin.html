@@ -1,0 +1,33 @@
+<section id="admin-section" class="hidden">
+  <div class="section-title">Админ</div>
+  <div class="profile-wrapper">
+    <div class="profile-right" style="width:min(1200px,92vw);">
+      <h3 class="admin-subtitle">Пользователи</h3>
+      <div id="adminUsersList" class="plans-list"></div>
+      <div class="profile-actions">
+        <button class="back-button" onclick="closeAdmin()">← Назад на главную</button>
+      </div>
+      <h3 class="admin-subtitle">Записи на тренировки</h3>
+      <div id="adminBookingsList" class="plans-list"></div>
+      <h3 class="admin-subtitle">Заявки на тренера</h3>
+      <div id="adminApplicationsList" class="applications-admin-list"></div>
+      <div class="admin-actions">
+        <button id="refreshApplicationsBtn" class="profile-btn">Обновить заявки</button>
+      </div>
+      <h3 class="admin-subtitle">Управление тренерами</h3>
+      <div id="adminTrainersList" class="trainers-admin-list"></div>
+      <div class="admin-actions">
+        <button id="addTrainerBtn" class="profile-btn">+ Добавить тренера</button>
+        <button id="refreshTrainersBtn" class="profile-btn">Обновить список</button>
+      </div>
+      <h3 class="admin-subtitle">Управление абонементами</h3>
+      <div id="adminSubscriptionsList" class="subscriptions-admin-list"></div>
+      <div class="admin-actions">
+        <button id="addSubscriptionBtn" class="profile-btn">+ Добавить абонемент</button>
+        <button id="refreshSubscriptionsBtn" class="profile-btn">Обновить список</button>
+        <button id="clearSubscriptionsBtn" class="profile-btn" style="background: #ff6b6b;">🗑️ Очистить все абонементы</button>
+      </div>
+    </div>
+  </div>
+</section>
+
